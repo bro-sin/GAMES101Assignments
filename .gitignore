@@ -1,2 +1,8 @@
-build
-CMakeUserPresets.json
+# 编译产物
+build 
+
+# conan生成的文件
+CMakeUserPresets.json 
+
+# clangd缓存
+.cache 

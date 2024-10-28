@@ -30,8 +30,10 @@ cd build && source conanbuild.sh
 调用`conan`的工具链生成`CMakeFiles`
 
 ```sh
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1
 ```
+
+> 为了使用clangd的补全功能，需要生成`compile_commands.json`文件，添加了`-DCMAKE_EXPORT_COMPILE_COMMANDS=1`参数
 
 编译
 
