@@ -39,4 +39,4 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ```
 
-> `eigen`库以及`cmake`版本更新导致原本的`CMakeLists.txt`不能成功编译，折腾了太久；按照[`Eigen3.4.90`版本的官方文档说明](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html)修改后即可正常编译。
+> `eigen`库以及`cmake`版本更新导致原本的`CMakeLists.txt`不能成功编译，折腾了太久；按照[`Eigen3.4.90`版本的官方文档说明](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html)修改后即可正常编译。并且源文件中`include`部分也需要调整，直接`include`库名称就行了，不用加前面的`eigen3`了
