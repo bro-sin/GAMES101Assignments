@@ -27,6 +27,12 @@ Eigen::Matrix4f get_model_matrix(float rotation_angle)
     // Create the model matrix for rotating the triangle around the Z axis.
     // Then return it.
 
+    //计算弧度
+    float angle = rotation_angle / 180.0 * MY_PI;
+    model(0,0)= std::cos(angle);
+    model(0,1)=-std::sin(angle);
+    model(1,0)=std::sin(angle);
+    model(1,1)=std::cos(angle);
     return model;
 }
 
@@ -35,12 +41,42 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 {
     // Students will implement this function
 
-    Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
+//    Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
 
     // TODO: Implement this function
     // Create the projection matrix for the given parameters.
     // Then return it.
 
+    //计算弧度
+    float fovY=eye_fov/180.0*MY_PI;
+
+    //计算t,b,r,l
+    float yTop=std::abs(zNear)*std::tan(fovY/2);
+    float yBottom=-yTop;
+    float xRight=aspect_ratio*yTop;
+    float xLeft=-xRight;
+
+    // 计算正交投影矩阵
+    Eigen::Matrix4f M_orthographic_translation=Eigen::Matrix4f::Identity();
+    M_orthographic_translation(0,3)=-(xRight+xLeft)/2;
+    M_orthographic_translation(1,3)=-(yTop+yBottom)/2;
+    M_orthographic_translation(2,3)=-(zNear+zFar)/2;
+    Eigen::Matrix4f M_orthographic_scale=Eigen::Matrix4f::Identity();
+    M_orthographic_scale(0,0)=2/(xRight-xLeft);
+    M_orthographic_scale(1,1)=2/(yTop-yBottom);
+    M_orthographic_scale(2,2)=2/(zNear-zFar);
+    Eigen::Matrix4f M_orthographic= M_orthographic_scale*M_orthographic_translation;
+
+    //计算透视投影到正交投影的变换矩阵
+    Eigen::Matrix4f M_perspective_to_orthographic=Eigen::Matrix4f::Zero();
+    M_perspective_to_orthographic(0,0)=zNear;
+    M_perspective_to_orthographic(1,1)=zNear;
+    M_perspective_to_orthographic(2,2)=zNear+zFar;
+    M_perspective_to_orthographic(2,3)=-zNear*zFar;
+    M_perspective_to_orthographic(3,2)=1;
+
+    //计算透视投影矩阵M_{persp}
+    Eigen::Matrix4f projection=M_orthographic*M_perspective_to_orthographic;
     return projection;
 }
 
