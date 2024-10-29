@@ -190,7 +190,7 @@ int main(int argc, const char** argv)
         else if (key == 'd') {
             // angle -= 10;
             rotation_matrix=rotation_matrix*get_rotation(get_axis(axis_char),-11);
-            std::cout << "rotate around " << axis_char << " axis by 11 degrees" << std::endl;
+            std::cout << "rotate around " << axis_char << " axis by -11 degrees" << std::endl;
         }else if (key == 'u'){
             //按u切换旋转轴
             switch (axis_char) {
