@@ -1,0 +1,24 @@
+{
+    "version": "0.5",
+    "requires": [
+        "zstd/1.5.5#1f239731dc45147c7fc2f54bfbde73df%1715599909.17",
+        "zlib/1.2.11#fca992a7d96a1b92bd956caa8a97d18f%1705999194.642",
+        "xz_utils/5.4.5#51e5a6e6564f4ea3afd79def01f035ad%1712043875.075",
+        "openexr/2.5.7#191290b5cb7da90a05ed351fae29d9c4%1720516145.62",
+        "opencv/3.4.20#b1553fe1021274036ffbea14e9c2b3ec%1703168603.634",
+        "libwebp/1.3.2#52f69c4a31c5cf033fdd9230d77a8e38%1694806992.059",
+        "libtiff/4.6.0#51d0e7e15d032aeec1b64e65c44ecd9f%1710002558.618",
+        "libpng/1.6.40#3e5bfaeeb94f87558582a88a3a1a7524%1726517437.765",
+        "libjpeg/9e#3cd27a78643419450ee6d3739514d25c%1717248355.892",
+        "libdeflate/1.19#3ea74a4549efc14d4b1202dc4bfbf602%1694914376.803",
+        "jbig/20160605#2d29fa02aacd76902e0d2cbbc24631ef%1676066289.194",
+        "jasper/4.0.0#f49b8fbc88e8c369b6fd832a0f8f8945%1718169795.007",
+        "gtk/system#3671596ecc796ec65f881b2cad66ce26%1681427046.339",
+        "eigen/3.4.0#2e192482a8acff96fe34766adca2b24c%1680436083.8"
+    ],
+    "build_requires": [
+        "cmake/3.29.6#1a639e3e7401ea46e16c83ec9c5a7922%1718727803.021"
+    ],
+    "python_requires": [],
+    "config_requires": []
+}
