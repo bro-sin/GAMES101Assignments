@@ -80,6 +80,46 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
     return projection;
 }
 
+Eigen::Matrix4f get_rotation(Vector3f axis, float angle)
+{
+    // 得到绕任意过原点的轴的旋转变换矩阵
+    
+    //先保证方向向量是单位向量
+    axis.normalize();
+    // 使用弧度
+    float angle_rad = angle / 180.0 * MY_PI;
+
+    // 使用方向向量填充反对称矩阵
+    Eigen::Matrix3f N;
+    N << 0, -axis.z(), axis.y(),
+         axis.z(), 0, -axis.x(),
+         -axis.y(), axis.x(), 0;
+
+    // 旋转矩阵：Rodrigues' rotation formula
+    Eigen::Matrix3f R=std::cos(angle_rad)*Eigen::Matrix3f::Identity()+
+                    (1-std::cos(angle_rad))*axis*axis.transpose()+
+                    std::sin(angle_rad)* N;
+
+    // 4x4矩阵
+    Eigen::Matrix4f R4=Eigen::Matrix4f::Identity();
+    R4.block(0,0,3,3)=R;
+
+    return R4;
+}
+
+Eigen::Vector3f get_axis(char axis_char){
+    if (axis_char=='x'){
+        return Vector3f(1,0,0);
+    }else if (axis_char=='y'){
+        return Vector3f(0,1,0);
+    }else if (axis_char=='z'){
+        return Vector3f(0,0,1);
+    }else {
+        std::cout<<"axis error"<<std::endl;
+        return Vector3f(1,1,1);
+    }
+}
+
 int main(int argc, const char** argv)
 {
     float angle = 0;
@@ -124,12 +164,14 @@ int main(int argc, const char** argv)
         return 0;
     }
 
+    char axis_char='z';
+    Eigen::Matrix4f rotation_matrix = get_rotation(get_axis(axis_char),angle);
     while (key != 27) {
         r.clear(rst::Buffers::Color | rst::Buffers::Depth);
 
-        r.set_model(get_model_matrix(angle));
+        r.set_model(rotation_matrix);
         r.set_view(get_view_matrix(eye_pos));
-        r.set_projection(get_projection_matrix(45, 1, 0.1, 50));
+        r.set_projection(get_projection_matrix(76, 1, 0.1, 50));
 
         r.draw(pos_id, ind_id, rst::Primitive::Triangle);
 
@@ -138,13 +180,33 @@ int main(int argc, const char** argv)
         cv::imshow("image", image);
         key = cv::waitKey(10);
 
-        std::cout << "frame count: " << frame_count++ << '\n';
 
         if (key == 'a') {
-            angle += 10;
+            // angle += 10;
+            rotation_matrix=rotation_matrix*get_rotation(get_axis(axis_char),11);
+            //输出绕哪个轴旋转了多少度
+            std::cout << "rotate around " << axis_char << " axis by 11 degrees" << std::endl;
         }
         else if (key == 'd') {
-            angle -= 10;
+            // angle -= 10;
+            rotation_matrix=rotation_matrix*get_rotation(get_axis(axis_char),-11);
+            std::cout << "rotate around " << axis_char << " axis by 11 degrees" << std::endl;
+        }else if (key == 'u'){
+            //按u切换旋转轴
+            switch (axis_char) {
+                case 'x':
+                    axis_char='y';
+                    break;
+                case 'y':
+                    axis_char='z';
+                    break;
+                case 'z':
+                    axis_char='x';
+                    break;
+                default:
+                    break;
+            }
+            std::cout<<"change axis to "<<axis_char<<std::endl;
         }
     }
 

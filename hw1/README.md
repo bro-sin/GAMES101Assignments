@@ -36,3 +36,26 @@ t=|n|\tan \frac{fovY}{2},b=-t
 \\
 r=aspect\times t,l=-r
 $$
+
+## `get_rotation`
+
+这个矩阵在课件中也有介绍，使用Rodrigues' Rotation Formula
+就可以算出来：
+
+$$
+\mathbf{R}(\mathbf{n},\alpha)
+=
+\cos (\alpha) \mathbf{I}
++
+(1-\cos(\alpha)) \mathbf{n}\mathbf{n}^\top
++
+\sin(\alpha)
+
+\begin{pmatrix}
+0 & -n_z & n_y
+\\
+n_z & 0 & -n_x
+\\
+-n_y & n_x & 0
+\end{pmatrix}
+$$
