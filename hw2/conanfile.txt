@@ -1,0 +1,7 @@
+[requires]
+eigen/3.4.0
+opencv/3.4.20
+
+[generators]
+CMakeDeps
+CMakeToolchain
